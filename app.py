@@ -21,4 +21,4 @@ def retrieve_vector_route():
     return jsonify(retrieve_context(query, paper_id))
 
 if __name__ == '__main__':
-    app.run(port=5328)
+    app.run(host="0.0.0.0", port=5328)
