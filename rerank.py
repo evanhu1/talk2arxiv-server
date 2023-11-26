@@ -1,17 +1,10 @@
-import cohere
-from dotenv import load_dotenv
-from os import getenv
-
-load_dotenv()
-API_KEY = getenv("COHERE_API_KEY")
-co = cohere.Client(API_KEY)
+from cohere_api import rerank
 
 def rerank_retrievals(query, retrievals, n):
   """Retrieves the top n reranked out of retrieved documents."""
-  responses = co.rerank(
-    model = 'rerank-english-v2.0',
+  responses = rerank(
     query = query,
-    documents = retrievals,
-    top_n = n,
-  )
-  return [result["documents"]["text"] for result in responses["results"]]
+    retrievals = retrievals,
+    n = n,
+  ).results
+  return [result.document["text"] for result in responses]

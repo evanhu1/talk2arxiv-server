@@ -1,19 +1,24 @@
 from flask import Flask, request, jsonify
-from embeddings import insert_vector, retrieve_vector, ping
+from vectordb import embed_paper, retrieve_context
 
 app = Flask(__name__)
 
 @app.route('/embeddings/ping', methods=['GET'])
 def ping_route():
-    return ping()
+    return jsonify({"message": "Service is up and running"}), 200
 
 @app.route('/embeddings/insert', methods=['POST'])
 def insert_vector_route():
-    return insert_vector(request)
+    content = request.json
+    paper_id = content['pdfId']
+    return jsonify(embed_paper(paper_id))
 
 @app.route('/embeddings/query', methods=['POST'])
 def retrieve_vector_route():
-    return retrieve_vector(request)
+    content = request.json
+    paper_id = content['pdfId']
+    query = content['query']
+    return jsonify(retrieve_context(query, paper_id))
 
 if __name__ == '__main__':
     app.run(port=5328)

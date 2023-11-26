@@ -12,6 +12,8 @@ cohere = "^4.34"
 scipdf = {git = "https://github.com/titipata/scipdf_parser"}
 pinecone-client = "^2.2.4"
 python-dotenv = "^1.0.0"
+bs4 = "^0.0.1"
+nltk = "^3.8.1"
 
 
 [tool.poetry.group.dev.dependencies]
