@@ -59,5 +59,5 @@ def retrieve_context(query, paper_id):
   else:
       return {"status": "error", "message": "Vector not found"}
 
-embed_paper("https://arxiv.org/pdf/2208.01066.pdf")
+# embed_paper("2208.01066.pdf")
 # print(retrieve_context("what is the title?", "https://arxiv.org/pdf/2106.01558.pdf"))
