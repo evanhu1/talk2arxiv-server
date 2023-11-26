@@ -2,7 +2,7 @@ import scipdf
 from cohere_api import tokenize
 from nltk.tokenize import sent_tokenize, word_tokenize
 
-GROBID_URL = "https://ox-adjusted-currently.ngrok-free.app"
+GROBID_URL = "http://13.58.127.171/"
 CHUNK_MAX_TOKEN_SIZE = 512 * 0.75
 
 def parse_pdf(url):
