@@ -2,7 +2,7 @@ from rerank import rerank_retrievals
 from dotenv import load_dotenv
 from os import getenv
 import pinecone
-from pdf import split_pdf_into_chunks
+from pdf import split_pdf_into_chunks, get_metadata
 from embeddings import embed_docs, embed_query;
 import uuid
 
@@ -28,10 +28,13 @@ def embed_paper(paper_id):
   chunks = [x['chunk'] for x in chunk_text_pairs]
   embeddings = embed_docs(chunks)
 
+  paper_metadata = get_metadata(paper_url)
+  paper_title = "" if paper_metadata == "" else paper_metadata["title"]
+
   index.upsert([{
       'id': str(generate_random_uuid()), 
       "values": embeddings[i], 
-      "metadata": {"embedded_text": embedded_texts[i], "chunk": chunks[i], "paper_id": paper_id}
+      "metadata": {"embedded_text": embedded_texts[i], "chunk": chunks[i], "paper_id": paper_id, "paper_title": paper_title}
     } for i in range(len(embeddings))])
 
   loaded_papers[paper_url] = True
@@ -50,12 +53,13 @@ def retrieve_context(query, paper_id):
   )["matches"]
 
   texts = [str(x['metadata']['chunk']) for x in retrieved_docs]
-  
-  print(texts)
+  paper_title = retrieved_docs[0]['metadata'].get('paper_title', "")
+
+  # print(texts)
   reranked_docs = rerank_retrievals(query, texts, K)
 
   if reranked_docs:
-      return {"status": "success", "data": reranked_docs}
+      return {"status": "success", "data": reranked_docs, "paper_title": paper_title}
   else:
       return {"status": "error", "message": "Vector not found"}
 

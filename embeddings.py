@@ -11,4 +11,3 @@ def embed_query(query):
       docs=[query],
       input_type='search_query'
     ).embeddings
-
