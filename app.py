@@ -41,4 +41,4 @@ def chat_route():
     return jsonify(converse(prompt))
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5328, ssl_context='adhoc')
+    app.run(host="0.0.0.0", port=5328)
