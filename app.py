@@ -35,7 +35,7 @@ def retrieve_vector_route():
     return jsonify(retrieve_context(query, paper_id))
 
 @app.route('/chat', methods=['POST'])
-def retrieve_vector_route():
+def chat_route():
     content = request.json
     prompt = content['prompt']
     return jsonify(converse(prompt))
