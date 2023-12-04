@@ -11,7 +11,7 @@ if len(client.containers.list()) == 0:
   client.containers.run("lfoppiano/grobid:0.8.0", detach=True, ports={'8070/tcp': 8070})
 
 app = Flask(__name__)
-CORS(app, origins=["http://talk2arxiv.com", "http://localhost:3000"])
+CORS(app, origins=["http://talk2arxiv.com", "https://talk2arxiv.com", "http://localhost:3000", "https://localhost:3000"])
 
 @app.route('/ping', methods=['GET'])
 def ping_route():
@@ -41,4 +41,4 @@ def chat_route():
     return jsonify(converse(prompt))
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5328)
+    app.run(host="0.0.0.0", port=5328, ssl_context='adhoc')
