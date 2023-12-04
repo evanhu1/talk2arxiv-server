@@ -1,7 +1,10 @@
 from openai import OpenAI
+from dotenv import load_dotenv
+from os import getenv
 
-api_key = "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"
-client = OpenAI(api_key=api_key)
+load_dotenv()
+API_KEY = getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=API_KEY)
 
 def converse(prompt):
   response = client.chat.completions.create(
