@@ -15,13 +15,21 @@ PINECONE_ENDPOINT = "https://arxiv-euyze3g.svc.gcp-starter.pinecone.io"
 
 pinecone.init(api_key=PINECONE_API_KEY, environment="gcp-starter")
 index = pinecone.Index("arxiv")
-loaded_papers = {}
+
+def check_already_embedded(paper_id):
+  retrieved_docs = index.query(
+    vector=[0.0 for i in range(1024)],
+    top_k=1,
+    filter={"paper_id": {"$eq": paper_id}},
+    include_metadata=True
+  )["matches"]
+  return len(retrieved_docs) > 0
 
 def embed_paper(paper_id):
-  global loaded_papers
-  paper_url = "https://arxiv.org/pdf/" + paper_id
-  if paper_url in loaded_papers:
+  if check_already_embedded(paper_id):
       return {"status": "error", "message": "Already loaded"}
+  
+  paper_url = "https://arxiv.org/pdf/" + paper_id
 
   chunk_text_pairs = split_pdf_into_chunks(paper_url)
   embedded_texts = [x['embedded_text'] for x in chunk_text_pairs]
@@ -37,7 +45,6 @@ def embed_paper(paper_id):
       "metadata": {"embedded_text": embedded_texts[i], "chunk": chunks[i], "paper_id": paper_id, "paper_title": paper_title}
     } for i in range(len(embeddings))])
 
-  loaded_papers[paper_url] = True
   return {"status": "success"}
 
 def retrieve_context(query, paper_id):
