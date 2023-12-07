@@ -19,6 +19,12 @@ poetry install
 poetry run python -m spacy download en_core_web_sm
 poetry run gunicorn app:app -b 0.0.0.0:3001
 ```
+You must also create a .env with the following defined:
+```
+COHERE_API_KEY=""
+PINECONE_API_KEY=""
+OPENAI_API_KEY="
+```
 
 ## Features
 - PDF Parsing: Utilizes GROBID for efficient text extraction from PDFs.
