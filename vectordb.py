@@ -58,11 +58,10 @@ def retrieve_context(query, paper_id):
     include_metadata=True,
     vector=query_vector
   )["matches"]
-
-  texts = [str(x['metadata']['chunk']) for x in retrieved_docs]
+  embeds = [str(x['metadata']['embedded_text']) for x in retrieved_docs]
+  texts = [str(x['metadata']['embedded_text'] + ":\n" + x['metadata']['chunk']) for x in retrieved_docs]
   paper_title = retrieved_docs[0]['metadata'].get('paper_title', "")
-  print(texts)
-  # print(texts)
+
   reranked_docs = rerank_retrievals(query, texts, K)
 
   if reranked_docs:
