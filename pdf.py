@@ -39,7 +39,7 @@ def create_chunk_text_pairs(pdf_dict):
             chunk_text_pairs.append({"embedded_text": chunk, "chunk": chunk})
         for chunk in generate_hierarchical_chunks(section["text"], CHUNK_MAX_TOKEN_SIZE // 2):
             chunk_text_pairs.append({"embedded_text": chunk, "chunk": chunk})
-
+    print(chunk_text_pairs)
     return chunk_text_pairs
 
 def generate_hierarchical_chunks(text, chunk_max_token_size=CHUNK_MAX_TOKEN_SIZE):

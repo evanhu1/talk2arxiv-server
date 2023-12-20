@@ -29,12 +29,12 @@ def embed_paper(paper_id):
   if check_already_embedded(paper_id):
       return {"status": "error", "message": "Already loaded"}
   
-  paper_url = "https://arxiv.org/pdf/" + paper_id
+  paper_url = "https://arxiv.org/pdf/" + paper_id + (".pdf" if ".pdf" not in paper_id else "")
 
   chunk_text_pairs = split_pdf_into_chunks(paper_url)
   embedded_texts = [x['embedded_text'] for x in chunk_text_pairs]
   chunks = [x['chunk'] for x in chunk_text_pairs]
-  embeddings = embed_docs(chunks)
+  embeddings = embed_docs(embedded_texts)
 
   paper_metadata = get_metadata(paper_url)
   paper_title = "" if paper_metadata == "" else paper_metadata["title"]
@@ -61,7 +61,7 @@ def retrieve_context(query, paper_id):
 
   texts = [str(x['metadata']['chunk']) for x in retrieved_docs]
   paper_title = retrieved_docs[0]['metadata'].get('paper_title', "")
-
+  print(texts)
   # print(texts)
   reranked_docs = rerank_retrievals(query, texts, K)
 
