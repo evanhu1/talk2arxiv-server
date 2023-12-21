@@ -48,7 +48,7 @@ def embed_paper(paper_id):
   return {"status": "success"}
 
 def retrieve_context(query, paper_id):
-  N, K = 20, 5
+  N, K = 10, 3
 
   query_vector = embed_query(query)
   
