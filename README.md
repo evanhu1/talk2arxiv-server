@@ -22,7 +22,7 @@ poetry run gunicorn app:app -b 0.0.0.0:3001
 You must also create a .env with the following defined:
 ```
 COHERE_API_KEY=""
-PINECONE_API_KEY=""
+QDRANT_API_KEY=""
 OPENAI_API_KEY="
 ```
 
@@ -30,7 +30,7 @@ OPENAI_API_KEY="
 - PDF Parsing: Utilizes GROBID for efficient text extraction from PDFs.
 - Chunking Algorithm: Custom-built algorithm for optimal text chunking.
 - Text Embedding: Implements Cohere's EmbedV3 model for accurate text embeddings.
-- Vector Database Integration: Uses Pinecone for storing and querying embeddings.
+- Vector Database Integration: Uses Qdrant for storing and querying embeddings.
 - Contextual Relevance: Employs a reranking process to select the most relevant content based on user input.
 
 ## Technologies Used
